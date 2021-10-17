@@ -99,8 +99,42 @@ Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个�
             }
 
 ## 三. 运行 Command
-`cli.Run(command)` 方法会执行 `command` 命令，其实主要是执行 上面定义的 `RunE` 方法，我们看一下
+`cli.Run(command)` 方法会执行 `command` 命令，其实主要是执行 上面定义的 `RunE` 方法，我们看一下:
 
+        RunE: func(cmd *cobra.Command, args []string) error {
+			if err := opts.Complete(&namedFlagSets); err != nil {
+				return err
+			}
+			if err := runCommand(cmd, opts, registryOptions...); err != nil {
+				return err
+			}
+			return nil
+		}
+
+
+1. `opts.Complete()` 用于补全初始化所需的配置，并作为参数传入 `runCommand` 方法
+2. `runCommand` 包含了真正运行 `kube-scheduler` 的代码:
+
+        func runCommand(cmd *cobra.Command, opts *options.Options, registryOptions ...Option) error {
+            ...
+
+            ctx, cancel := context.WithCancel(context.Background())
+            defer cancel()
+            go func() {
+                stopCh := server.SetupSignalHandler()
+                <-stopCh
+                cancel()
+            }()
+
+            cc, sched, err := Setup(ctx, opts, registryOptions...)
+            if err != nil {
+                return err
+            }
+
+            return Run(ctx, cc, sched)
+        }
+
+    `Setup()` 方法主要用于初始化 `Scheduler` 实例，`Run()` 则根据配置运行 `scheduler`，具体逻辑会在后面的系列文章中说明，不作为本次文章重点。
 ## 四. 退出程序
 `Run` 命令会根据执行情况返回对应的错误码，成功返回0，错误返回非0。调用 `os.Exit(code)` 退出程序。
 
