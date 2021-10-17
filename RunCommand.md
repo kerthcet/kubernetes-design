@@ -1,7 +1,3 @@
-    Kubernetes Version: v1.22
-    Author(Github): @kerthcet
-    Datetime: 2021.10.17
-
 # Kube-Scheduler初始化运行
 
 ## 一. 开篇
@@ -162,3 +158,7 @@ Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个�
 
 ### 2. 如何编译 `kube-scheduler` 二进制文件
 `kubernetes` 根项目直接执行 `build/run.sh make kube-scheduler`
+
+
+### 3. 备注
+    本文所使用的Kubernetes版本为v1.22
