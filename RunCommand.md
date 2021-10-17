@@ -2,7 +2,7 @@
     Author(Github): @kerthcet
     Datetime: 2021.10.17
 
-# Kubernetes kube-scheduler源码解析系列之启动篇
+# Kube-Scheduler初始化运行
 
 ## 一. 开篇
 Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个集群的容器编排和调度策略。得益于Kubernetes整体架构设计的一致性，我们知道所有的组件启动命令都位于 `cmd` 文件夹下各个子模块的 `main` 方法内，`scheduling` 模块的具体代码位置位于 `cmd/kube-scheduler/scheduler.go` ，代码如下：
@@ -14,7 +14,7 @@ Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个�
     }
 
 
-代码很简单，分为3步，第一步注册 `command`，第二步运行， 第三步返回错误码，我们一步一步看。
+代码很简单，分为3步，第一步注册 Command，第二步运行 Command， 第三步退出程序，我们一步一步看。
 
 ## 二. 注册 Command
 `app.NewSchedulerCommand()` 代码位于 `cmd/kube-scheduler/app/server.go`, 我把主要的逻辑梳理下，省略的代码用 `...` 标记。
@@ -76,7 +76,7 @@ Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个�
 
     `SilenceErrors` 和 `SilenceUsage` 用来静默是否由 `cobra` 输出错误和使用信息，默认情况下，如果解析 `command` 出现错误，会输出错误和使用信息，代码同样位于 `vendor/github.com/spf13/cobra/command.go`：
 
-        	err = cmd.execute(flags)
+            err = cmd.execute(flags)
             if err != nil {
                 // Always show help if requested, even if SilenceErrors is in
                 // effect
@@ -98,11 +98,11 @@ Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个�
                 }
             }
 
-## 三. 执行 Command
+## 三. 运行 Command
 `cli.Run(command)` 方法会执行 `command` 命令，其实主要是执行 上面定义的 `RunE` 方法，我们看一下
 
-## 四. 返回错误码
-`Run` 命令会根据执行情况返回对应的错误码，成功返回0，错误返回非0。
+## 四. 退出程序
+`Run` 命令会根据执行情况返回对应的错误码，成功返回0，错误返回非0。调用 `os.Exit(code)` 退出程序。
 
 ## 五. 其他
 ### 1. 如何自定义 `flag` 启动 `kube-scheduler`
@@ -113,7 +113,7 @@ Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个�
     kube-controller-manager.yaml
     kube-scheduler.yaml
 
-这几个组件都是以 `static pod` 的方式运行，所谓 sataic pod ，他们都是由 kubelet 守护进程直接管理，不需要 API 服务器 监管。直接修改 `kube-scheduler.yaml` 文件，kubelet 会监听到文件变动直接重启 `static pod`, 配置命令如下：
+这几个组件都是以 `static pod` 的方式运行，所谓 static pod ，他们都是由 kubelet 守护进程直接管理，不需要 API 服务器 监管。直接修改 `kube-scheduler.yaml` 文件，kubelet 会监听到文件变动直接重启 `static pod`, 配置命令如下：
 
     spec:
         containers:
@@ -127,4 +127,4 @@ Kubernetes Scheduling是Kubernetes架构设计中的核心模块，负责整个�
             - --port=0
 
 ### 2. 如何编译 `kube-scheduler` 二进制文件
-`kubernetes` 根项目直接执行 `build/run.sh make kube-scheduler`≠
+`kubernetes` 根项目直接执行 `build/run.sh make kube-scheduler`
