@@ -3,6 +3,7 @@ kubernetes kube-scheduler 源码解析系列文章。同样收录于公众号: T
 
 ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg)
 
+ ### 目录:
 1. [Kube-Scheduler初始化运行](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/RunCommand.md)
 2. Kube-Scheduler 启动过程
 3. Kube-Scheduler 插件机制
