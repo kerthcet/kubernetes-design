@@ -1,7 +1,7 @@
 # kube-scheduler-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kube-scheduler-design)
-kubernetes kube-scheduler 源码解析系列文章。同样收录于公众号: TechTrek，转载请标明出处。(🌱 持续更新！)
+kubernetes kube-scheduler 源码解析系列文章。转载请标明出处。(🌱 持续更新！)
 
-![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg)
+<!-- ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg) -->
 
  ### 目录:
 1. [Kube-Scheduler初始化运行](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/RunCommand.md)

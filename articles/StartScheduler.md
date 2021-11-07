@@ -161,7 +161,6 @@
         snapshot := internalcache.NewEmptySnapshot()
         clusterEventMap := make(map[framework.ClusterEvent]sets.String)
 
-        // 构造 Configurator 对象
         configurator := &Configurator{
             // ...
         }
@@ -184,7 +183,7 @@
 
 我们把重要的逻辑拆开来讲一下。
 
-#### 3.4.1 Api Convert
+#### 3.4.1 API Convert
 先看第一段逻辑：
 
     var versionedCfg v1beta3.KubeSchedulerConfiguration
@@ -268,7 +267,7 @@
 
     podQueue := internalqueue.NewSchedulingQueue(...)
 
-最后，我们声明了一个 `genericScheduler`，并作为 `Scheduler` 的 `Algorithm` 字段值。
+最后，我们声明了一个 `genericScheduler`，并作为 `Scheduler` 的 `Algorithm` 字段对应的值，最后返回 `scheduler` 对象。
 
     algo := NewGenericScheduler(
 		c.schedulerCache,
@@ -390,6 +389,7 @@
     cc.EventBroadcaster.StartRecordingToSink(ctx.Done())
 
 ### 4.3 启动 https 服务器
+其中 `metrics`  服务也是在这里启动的。
 
 	if cc.SecureServing != nil {
 		handler := buildHandlerChain(newHealthzAndMetricsHandler(...), cc.Authentication.Authenticator, cc.Authorization.Authorizer)
@@ -401,6 +401,7 @@
 
 ### 4.4 `informer` 启动
 这里不仅启动了 `informer`，而且还需要等待 `informer cache` 从 `apiserver` 同步全量数据完成，因为 `informer` 中需要有全量的数据，只有这样才可以不需要请求 `apiserver` 就知道当前集群的状态。
+
     cc.InformerFactory.Start(ctx.Done())
 	if cc.DynInformerFactory != nil {
 		cc.DynInformerFactory.Start(ctx.Done())
@@ -415,7 +416,13 @@
 如果 `Scheduler` 开启了 `LeaderElection` 机制，则需要先选举出 `leader`，具体逻辑我们在 `scheduler` 高可用章节中会详细描述。
 
 ### 4.6 启动 `scheduler`
-最后，我们启动 `scheduler` 实例，首先启动之前初始化的一个优先级队列：
+最后，我们启动 `scheduler` 实例，一共分为3步：
+
+    sched.SchedulingQueue.Run()
+	wait.UntilWithContext(ctx, sched.scheduleOne, 0)
+	sched.SchedulingQueue.Close()
+
+#### 4.6.1 启动优先级队列：
 
     sched.SchedulingQueue.Run()
 
@@ -426,7 +433,7 @@
         go wait.Until(p.flushUnschedulableQLeftover, 30*time.Second, p.stop)
     }
 
-接下来就会循环运行 `UntilWithContext` 方法触发调度逻辑，调用方法如下：
+#### 4.6.2 运行调度逻辑
 
     wait.UntilWithContext(ctx, sched.scheduleOne, 0)
 
@@ -443,7 +450,7 @@
 		backoffTimer: nil,
 	}
 
-`sliding` 等于 `true`，而 `stopCh` 是 `UntilWithContext` 参数 `ctx` 的 `Done() channel` 。
+`sliding` 等于 `true`，而 `stopCh` 是 `UntilWithContext` 参数 `ctx` 的 `Done()` 方法对应的 `channel` 。
 
 搞清楚了各个参数的输入值，我们看一下 `BackoffUntil` 方法，看他是如何调用调度逻辑的，该方法代码如下：
 
@@ -482,7 +489,11 @@
 
 首先申明了一个定时器，用来定义循环间隔，它实际值为 `backoff.Backoff()`，实际是一个间隔为0的定时器，所以该循环会不间断的运行 `scheduleOne` 方法，`sliding` 则定义了定时器是否需要包含 `scheduleOne` 的执行时间，`true` 则表示不需要，否则需要。最后 `stopCh` 则控制了何时终止程序运行。
 
-一旦 `context.Done()`，则 `sched.SchedulingQueue.Close()` 关闭优先级队列，退出进程，调度器整个生命周期结束。
+### 4.6.3 终止运行
+
+    sched.SchedulingQueue.Close()
+
+一旦 `context.Done()` 结束运行上下文，则调用 `Close()` 方法关闭优先级队列，退出进程，调度器整个生命周期结束。
 
 ## 5. 总结
 以上就是 `scheduler` 运行的全部流程，我们看到里面涵盖的东西很多，一篇文章无法 `cover` 所有内容，所以这篇文章主要是把涉及到的一些重要流程做一个介绍，后面我将分多次就某一个流程的完整生命周期进行详解解读， 比如 `scheduler` 的队列机制、`plugins` 机制，以及 `informer` 是如何运行的，等等。
