@@ -426,7 +426,7 @@
 
     sched.SchedulingQueue.Run()
 
-这个优先级队列的 `Run()` 方法启动了两个队列，一个是 `BackoffQ`，存储在多个 `schedulingCycle` 中依旧调度失败的 `pod`，并且有 `backOff` 机制，每次重新调度的时间周期会逐渐拉长。第二个队列是 `UnschedulableQ`，存储由于资源不足无法调度的 `pod`。
+这个优先级队列的 `Run()` 方法启动了两个循环队列，负责将调度失败的和无法调度的 `pod` 按照一定策略重新加入到调度队列中。一个是 `BackoffQ`，存储在多个 `schedulingCycle` 中依旧调度失败的 `pod`，并且有 `backOff` 机制，每次重新调度的时间周期会逐渐拉长。第二个队列是 `UnschedulableQ`，存储由于资源不足无法调度的 `pod`。
 
     func (p *PriorityQueue) Run() {
         go wait.Until(p.flushBackoffQCompleted, 1.0*time.Second, p.stop)

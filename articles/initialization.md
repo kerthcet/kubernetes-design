@@ -1,4 +1,4 @@
-# Kube-Scheduler初始化运行
+# Kube-Scheduler 初始化
 
     Kubernetes Version: v1.22@80056f73a614
     Date: 2021.10.17
