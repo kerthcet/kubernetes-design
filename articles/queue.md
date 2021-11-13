@@ -4,7 +4,7 @@
     Date: 2021.11.08
 
 ## 1. Scheduler 优先级队列
-在之前的文章 [Kube-Scheduler 启动](./start-scheduler)中，我们初始化了一个优先级队列，当时由于篇幅有限，我们只是简单的提了一下。这篇文章，我们将对整个队列进行全方位的解读，包括入列出列操作，三级队列彼此之间如何协作等等。
+在之前的文章 [Kube-Scheduler 启动](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/start-scheduler.md)中，我们初始化了一个优先级队列，当时由于篇幅有限，我们只是简单的提了一下。这篇文章，我们将对整个队列进行全方位的解读，包括入列出列操作，三级队列彼此之间如何协作等等。
 
 ### 1.1 初始化优先级队列
 
@@ -108,6 +108,7 @@
 		}
 
 		if len(podsToMove) > 0 {
+			// 转移
 			p.movePodsToActiveOrBackoffQueue(podsToMove, UnschedulableTimeout)
 		}
 	}
@@ -126,7 +127,7 @@
 
 	存储所有等待调度的 `pod`，它是一个 `heap` 数据结构，准确的说是一个大顶堆，插入和更新队列平均时间复杂度是 `O(logN)`，获取队列元素的平均时间复杂度是 `O(1)`。
 
-	`heap` 堆栈在进行构建优先级队列的时候有一个很重要的方法就是如何比较优先级，那这个方法是怎么定义的呢，其实就是我们在[初始化优先级队列](TODO)中所讲的 `lessFn` 方法。
+	`heap` 堆栈在进行构建优先级队列的时候有一个很重要的方法就是如何比较优先级，那这个方法是怎么定义的呢，其实就是我们在[初始化优先级队列](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/queue.md#11-%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97)中所讲的 `lessFn` 方法。
 
 2. `podBackoffQ`
 
@@ -371,7 +372,7 @@ Delete 事件
 	}
 
 ### 3.4 `unschedulableQ` 入列
-`unschedulableQ` 入列主要在两个地方，第一个是在更新优先级队列的时候，即 `Update()` 方法，我们在[3.1 入列(activeQ)](TODO) 讲 `Update` 事件的时候聊过了。第二个是在调用 `AddUnschedulableIfNotPresent()` 方法的时候，实现如下：
+`unschedulableQ` 入列主要在两个地方，第一个是在更新优先级队列的时候，即 `Update()` 方法，我们在[3.1 入列(activeQ)](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/queue.md#31-%E5%85%A5%E5%88%97-activeq) 讲 `Update` 事件的时候聊过了。第二个是在调用 `AddUnschedulableIfNotPresent()` 方法的时候，实现如下：
 
 	func (p *PriorityQueue) AddUnschedulableIfNotPresent(pInfo *framework.QueuedPodInfo, podSchedulingCycle int64) error {
 		p.lock.Lock()
@@ -400,7 +401,7 @@ Delete 事件
 
 另外，调用 `AddUnschedulableIfNotPresent()` 的方法是 `MakeDefaultErrorFunc()`，是 `Scheduler` 处理 `error` 错误默认方法。
 
-我们把这几个概念串起来，就理解了大致逻辑，当调度失败的时候，我们通过判断 `moveRequestCycle` 和 `podSchedulingCycle` 大小，就可以判断当前集群资源是否发生变化，如果没有，则重新加入 `unschedulableQ`，否则加入 `podBackoffQ`。
+我们把这几个概念串起来，就理解了大致逻辑，当调度失败的时候，我们通过判断 `moveRequestCycle` 和 `podSchedulingCycle` 大小，就可以判断当前集群资源是否发生变化，如果没有，则重新加入 `unschedulableQ`，否则加入 `podBackoffQ`，有些同学问为什么不加入到 `activeQ`，因为我们前面刚调度失败，不应该再加入到 `activeQ`。
 
 ### 3.5 `podBackoffQ` 入列
 `podBackoffQ` 入列操作其实都穿插在了之前的逻辑中，一个是 `AddUnschedulableIfNotPresent()` 方法，一个是优先级队列的 `Update()` 方法，还有一个是 `movePodsToActiveOrBackoffQueue()` 方法，这里就不展开了。
