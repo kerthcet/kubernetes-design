@@ -131,7 +131,18 @@
 
 2. `podBackoffQ`
 
-	存储所有调度失败的 `pod`，并且带有指数回避策略。同样，它也是一个 `heap` 堆栈。
+	存储所有调度失败的 `pod`，并且带有指数回避策略。同样，它也是一个 `heap` 堆栈。那 `podBackoffQ` 中元素的优先级是如何进行比较的呢，方法如下：
+
+		func (p *priorityqueue) podscomparebackoffcompleted(podinfo1, podinfo2 interface{}) bool {
+			pinfo1 := podinfo1.(*framework.queuedpodinfo)
+			pinfo2 := podinfo2.(*framework.queuedpodinfo)
+			bo1 := p.getbackofftime(pinfo1)
+			bo2 := p.getbackofftime(pinfo2)
+			return bo1.before(bo2)
+		}
+
+	方法很简单，谁距离下一次等待调度的时间越短，谁优先级越高。
+
 
 3. `unschedulableQ`
 
@@ -371,7 +382,7 @@ Delete 事件
 		return pInfo, err
 	}
 
-### 3.4 `unschedulableQ` 入列
+### 3.3 `unschedulableQ` 入列
 `unschedulableQ` 入列主要在两个地方，第一个是在更新优先级队列的时候，即 `Update()` 方法，我们在[3.1 入列(activeQ)](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/queue.md#31-%E5%85%A5%E5%88%97-activeq) 讲 `Update` 事件的时候聊过了。第二个是在调用 `AddUnschedulableIfNotPresent()` 方法的时候，实现如下：
 
 	func (p *PriorityQueue) AddUnschedulableIfNotPresent(pInfo *framework.QueuedPodInfo, podSchedulingCycle int64) error {
@@ -403,7 +414,7 @@ Delete 事件
 
 我们把这几个概念串起来，就理解了大致逻辑，当调度失败的时候，我们通过判断 `moveRequestCycle` 和 `podSchedulingCycle` 大小，就可以判断当前集群资源是否发生变化，如果没有，则重新加入 `unschedulableQ`，否则加入 `podBackoffQ`，有些同学问为什么不加入到 `activeQ`，因为我们前面刚调度失败，不应该再加入到 `activeQ`。
 
-### 3.5 `podBackoffQ` 入列
+### 3.4 `podBackoffQ` 入列
 `podBackoffQ` 入列操作其实都穿插在了之前的逻辑中，一个是 `AddUnschedulableIfNotPresent()` 方法，一个是优先级队列的 `Update()` 方法，还有一个是 `movePodsToActiveOrBackoffQueue()` 方法，这里就不展开了。
 
 ## 4. 总结
