@@ -4,7 +4,7 @@
     Date: 2021.11.08
 
 ## 1. Scheduler 优先级队列
-在之前的文章 [Kube-Scheduler 启动](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/start-scheduler.md)中，我们初始化了一个优先级队列，当时由于篇幅有限，我们只是简单的提了一下。这篇文章，我们将对整个队列进行全方位的解读，包括入列出列操作，三级队列彼此之间如何协作等等。
+在之前的文章 [Kube-Scheduler 启动](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/start-scheduler.md)中，我们初始化了一个优先级队列，当时由于篇幅有限，我们只是简单的提了一下。这篇文章，我们将对整个队列进行全方位的解读，包括入列出列操作，三级队列彼此之间如何协作等等。
 
 ### 1.1 初始化优先级队列
 

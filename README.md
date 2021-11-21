@@ -1,12 +1,14 @@
-# kube-scheduler-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kube-scheduler-design)
-kubernetes kube-scheduler 源码解析系列文章。转载请标明出处。(🌱 持续更新！)
+# kubernetes-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kubernetes-design)
+Kubernetes 源码解析系列文章，如有错误，欢迎指正。转载请标明出处。(🌱 持续更新！)
 
 <!-- ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg) -->
 
- ### 目录:
-1. [Kube-Scheduler 初始化](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/initialization.md)
-2. [Kube-Scheduler 启动](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/start-scheduler.md)
-3. [Kube-Scheduler 调度队列](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/queue.md)
+ ## 目录:
+
+ ### 1. scheduler
+1. [Kube-Scheduler 初始化](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/initialization.md)
+2. [Kube-Scheduler 启动](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/start-scheduler.md)
+3. [Kube-Scheduler 调度队列](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/queue.md)
 4. Kube-Scheduler 插件机制
 5. Kube-Scheduler 如何手写一个插件
 6. Kube-Scheduler 调度机制
@@ -21,3 +23,9 @@ kubernetes kube-scheduler 源码解析系列文章。转载请标明出处。(�
 15. Kube-Scheduler PodNominator 机制
 16. Kube-Scheduler 高可用设计
 17. Kube-Scheduler 抢占调度
+
+### 2. kube-apiserver
+1. AdmissionController 源码解析
+
+### 3. kubectl
+1. [Kubectl Builder & Visitor 设计模式解析](https://github.com/kerthcet/kubernetes-design/blob/main/kubectl/builder-visitor-pattern.md)
