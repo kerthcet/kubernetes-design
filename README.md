@@ -1,5 +1,5 @@
 # kubernetes-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kubernetes-design)
-Kubernetes 源码解析系列文章，如有错误，欢迎指正。转载请标明出处。(🌱 持续更新！)
+Kubernetes 源码解析系列文章📰。如有错误，欢迎指正📌。(持续更新...)
 
 <!-- ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg) -->
 

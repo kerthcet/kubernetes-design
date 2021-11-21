@@ -1,4 +1,8 @@
 ## Kubectl Builder & Visitor 设计模式解析
+
+    Kubernetes Version: v1.22@3b76c758317b
+    Date: 2021.10.08
+
 今天，跟大家分享下 `kubectl` 中常见的2种设计模式，`builder` 模式和 `visitor` 模式。我会结合具体的代码和大家一起重新温习下这些最基础的编程技巧。
 
 ### Builder 模式
@@ -244,3 +248,6 @@
             after function call-1
 
         其实就是一个单分支的 DFS 遍历树。
+
+## 总结
+`kubernetes` 源代码中还有很多设计模式思想，今天只是介绍了 `kubectl` 中的 `builder` 和 `visitor` 两种，这也是我最初看源码的时候经常遇到和迷惑的地方，希望可以对大家有所帮助。

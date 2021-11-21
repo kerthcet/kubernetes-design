@@ -4,7 +4,7 @@
     Date: 2021.10.31
 
 ## 1. 开篇
-[上篇文章](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/initialization.md)讲了`scheduler` 程序启动前的初始化流程，但是程序启动相关逻辑并没有讲，今天就围绕这一块代码展开，看看 `scheduler` 启动到底运行了哪些服务。
+[上篇文章](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/initialization.md)讲了`scheduler` 程序启动前的初始化流程，但是程序启动相关逻辑并没有讲，今天就围绕这一块代码展开，看看 `scheduler` 启动到底运行了哪些服务。
 
 代码入口位于 `cmd/kube-scheduler/app/server.go:runCommand()`，大致代码如下，分为信号量处理，`scheduler` 初始化以及最后运行 `scheduler`。
 

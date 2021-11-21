@@ -127,7 +127,7 @@
 
 	存储所有等待调度的 `pod`，它是一个 `heap` 数据结构，准确的说是一个大顶堆，插入和更新队列平均时间复杂度是 `O(logN)`，获取队列元素的平均时间复杂度是 `O(1)`。
 
-	`heap` 堆栈在进行构建优先级队列的时候有一个很重要的方法就是如何比较优先级，那这个方法是怎么定义的呢，其实就是我们在[初始化优先级队列](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/queue.md#11-%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97)中所讲的 `lessFn` 方法。
+	`heap` 堆栈在进行构建优先级队列的时候有一个很重要的方法就是如何比较优先级，那这个方法是怎么定义的呢，其实就是我们在[初始化优先级队列](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/queue.md#11-%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97)中所讲的 `lessFn` 方法。
 
 2. `podBackoffQ`
 
@@ -383,7 +383,7 @@ Delete 事件
 	}
 
 ### 3.3 `unschedulableQ` 入列
-`unschedulableQ` 入列主要在两个地方，第一个是在更新优先级队列的时候，即 `Update()` 方法，我们在[3.1 入列(activeQ)](https://github.com/kerthcet/kube-scheduler-design/blob/main/articles/queue.md#31-%E5%85%A5%E5%88%97-activeq) 讲 `Update` 事件的时候聊过了。第二个是在调用 `AddUnschedulableIfNotPresent()` 方法的时候，实现如下：
+`unschedulableQ` 入列主要在两个地方，第一个是在更新优先级队列的时候，即 `Update()` 方法，我们在[3.1 入列(activeQ)](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/queue.md#31-%E5%85%A5%E5%88%97-activeq) 讲 `Update` 事件的时候聊过了。第二个是在调用 `AddUnschedulableIfNotPresent()` 方法的时候，实现如下：
 
 	func (p *PriorityQueue) AddUnschedulableIfNotPresent(pInfo *framework.QueuedPodInfo, podSchedulingCycle int64) error {
 		p.lock.Lock()
