@@ -1,4 +1,4 @@
-# Kube-Scheduler 调度队列
+# Scheduler 调度队列
 
     Kubernetes Version: v1.22@3b76c758317b
     Date: 2021.11.08

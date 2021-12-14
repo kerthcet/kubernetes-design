@@ -1,3 +1,4 @@
+## Scheduler Informer 机制 (InProgres)
 第二个配置项是 `InformerFactory`，它是一个 `sharedInformerFactory` 实例，该实例结构体如下:
 
         type sharedInformerFactory struct {

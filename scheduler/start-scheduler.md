@@ -1,4 +1,4 @@
-# Kube-Scheduler 启动
+# Scheduler 启动
 
     Kubernetes Version: v1.22@392de8012eb4116
     Date: 2021.10.31
@@ -199,7 +199,7 @@
 `profile` 用于配置插件的开关及相应的参数设置，可以丰富我们的调度方案，取代了以前多调度器的设计。可以通过直接定义 pod 的 `spec.schedulerName` 来选择你想要的调度方案。默认 `schedulerName` 是 `default-scheduler`。
 
 #### 3.4.2 SchedulerCache
-第二段逻辑是关于声明 `pod` 缓存，默认30s超时时间，后面讲调度队列会着重介绍，我们现在只需要知道它主要用来缓存 `assumed pods`。
+第二段逻辑是关于声明一个缓存系统，默认30s超时时间，主要用来加速查询。
 
     schedulerCache := internalcache.New(30*time.Second, stopEverything)
 
