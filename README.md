@@ -30,4 +30,4 @@ Kubernetes 源码阅读📰。如有错误，欢迎指正📌。(持续更新�
 * AdmissionController 源码解析
 
 ### kubectl
-* Kubectl Builder & Visitor 设计模式解析](https://github.com/kerthcet/kubernetes-design/blob/main/kubectl/builder-visitor-pattern.md)
+* [Kubectl Builder & Visitor 设计模式解析](https://github.com/kerthcet/kubernetes-design/blob/main/kubectl/builder-visitor-pattern.md)
