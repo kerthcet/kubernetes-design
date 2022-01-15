@@ -1,6 +1,8 @@
 # kubernetes-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kubernetes-design)
 Kubernetes 源码阅读📰。如有错误，欢迎指正📌。(持续更新🌱)
 
+最新更新：2022-01-15 [scheduler 优先级和抢占](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/priority-preemption.md)
+
 <!-- ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg) -->
 
  ## 索引:

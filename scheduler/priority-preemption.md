@@ -1,5 +1,8 @@
 # scheduler 优先级和抢占
 
+    Kubernetes Version: v1.24@f1da8cd3e20
+    Date: 2022.01.15
+
 ## 1. 开篇
 Pod 可以有 优先级。 优先级表示一个 Pod 相对于其他 Pod 的重要性。 如果一个 Pod 无法被调度，调度程序会尝试抢占（驱逐）较低优先级的 Pod， 以使悬决 Pod 可以被调度。这就是 `kubernetes` 优先级于抢占机制。今天我们一起从源码角度看一下它是如何实现的。
 
