@@ -372,7 +372,7 @@ func (g *genericScheduler) findNodesThatFitPod(...) ([]*v1.Node, framework.Diagn
 至此，整个抢占机制算是走通了。
 
 ## `nominator` 提名器
-我们在 [`prepareCandidate`](#### 4.1.3 prepareCandidate)章节遇到过一个方法叫 `getLowerPriorityNominatedPods`，他可以获取某一个节点上所有同样处于抢占周期且优先级较低的 pod，他是如何实现的，其实是通过一个叫 `NominatedPodsForNode` 的方法，说到这，就不得不提一个结构体变量，叫 `nominator`，我们看一下：
+我们在 [`prepareCandidate`](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/priority-preemption.md#413-preparecandidate)章节遇到过一个方法叫 `getLowerPriorityNominatedPods`，他可以获取某一个节点上所有同样处于抢占周期且优先级较低的 pod，他是如何实现的，其实是通过一个叫 `NominatedPodsForNode` 的方法，说到这，就不得不提一个结构体变量，叫 `nominator`，我们看一下：
 ```golang
 type nominator struct {
 	// podLister is used to verify if the given pod is alive.
