@@ -9,7 +9,7 @@ Kubernetes 源码阅读📰。如有错误，欢迎指正📌。(持续更新�
 * [Kube-Scheduler 初始化](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/initialization.md)
 * [Kube-Scheduler 启动](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/start-scheduler.md)
 * [Kube-Scheduler 调度队列](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/queue.md)
-* Kube-Scheduler 优先级与抢占
+* [Kube-Scheduler 优先级与抢占](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/priority-preemption.md)
 * Kube-Scheduler 插件机制
 * Kube-Scheduler Cache层
 * Kube-Scheduler 如何手写一个插件
