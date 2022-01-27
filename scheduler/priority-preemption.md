@@ -138,7 +138,7 @@ func (ev *Evaluator) Preempt(ctx context.Context, pod *v1.Pod, m framework.NodeT
     podNamespace, podName := pod.Namespace, pod.Name
     pod, err := ev.PodLister.Pods(pod.Namespace).Get(pod.Name)
 
-    // 检查pod是否具备抢占条件，一是 pod.Status.NominatedNodeName 有值，二是此时集群中没有pod正在被删除
+    // 检查pod是否具备抢占条件，如果 pod 已经被提名过一次且提名节点上的 pod 正在终止，此时应该拒绝抢占。
     if !ev.PodEligibleToPreemptOthers(pod, m[pod.Status.NominatedNodeName]) {
         return nil, framework.NewStatus(framework.Unschedulable)
     }
@@ -217,6 +217,7 @@ func (ev *Evaluator) DryRunPreemption(...) ([]Candidate, framework.NodeToStatusM
         // SelectVictimsOnNode方法逻辑主要有2段：
         // 1. 模拟移除所有优先级低的pod，判断是否满足抢占要求
         // 2. 如果满足抢占要求，再模拟尽可能少的移除pod
+        // 3. 返回的 pods 按照 priority 优先级降序完成了排序
         // pods 表示需要驱逐的pod，numPDBViolations 表示违反PDB约束且需要被驱逐的pod数
         pods, numPDBViolations, status := ev.SelectVictimsOnNode(ctx, stateCopy, pod, nodeInfoCopy, pdbs)
 
