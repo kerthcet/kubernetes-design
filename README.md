@@ -1,7 +1,7 @@
 # kubernetes-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kubernetes-design)
-Kubernetes 源码阅读📰。如有错误，欢迎指正📌。(持续更新🌱)
+Kubernetes 源码学习笔记📰。如有错误，欢迎指正📌。(持续更新🌱)
 
-最新更新：2022-01-15 [scheduler 优先级和抢占](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/priority-preemption.md)
+最新更新：2022-03-04 [Kube-Scheduler Framework调度框架](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/framework.md)
 
 <!-- ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg) -->
 
@@ -12,7 +12,7 @@ Kubernetes 源码阅读📰。如有错误，欢迎指正📌。(持续更新�
 * [Kube-Scheduler 启动](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/start-scheduler.md)
 * [Kube-Scheduler 调度队列](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/queue.md)
 * [Kube-Scheduler 优先级与抢占](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/priority-preemption.md)
-* Kube-Scheduler Framework调度框架
+* [Kube-Scheduler Framework调度框架](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/framework.md)
 * Kube-Scheduler 插件机制
 * Kube-Scheduler Cache层
 * Kube-Scheduler 如何手写一个插件
