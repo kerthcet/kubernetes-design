@@ -1,7 +1,7 @@
 # kubernetes-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kubernetes-design)
 Kubernetes 源码学习笔记📰。如有错误，欢迎指正📌。(持续更新🌱)
 
-最新更新：2022-03-04 [Kube-Scheduler Framework调度框架](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/framework.md)
+最新更新：2022-03-14 [Kube-Scheduler Cache机制](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/cache.md)
 
 <!-- ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg) -->
 
@@ -13,8 +13,8 @@ Kubernetes 源码学习笔记📰。如有错误，欢迎指正📌。(持续更
 * [Kube-Scheduler 调度队列](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/queue.md)
 * [Kube-Scheduler 优先级与抢占](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/priority-preemption.md)
 * [Kube-Scheduler Framework调度框架](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/framework.md)
+* [Kube-Scheduler Cache机制](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/cache.md)
 * Kube-Scheduler 插件机制
-* Kube-Scheduler Cache层
 * Kube-Scheduler 如何手写一个插件
 * Kube-Scheduler 调度机制
 * Kube-Scheduler 多版本控制如何实现
@@ -26,7 +26,6 @@ Kubernetes 源码学习笔记📰。如有错误，欢迎指正📌。(持续更
 * Kube-Scheduler Descheduler 机制
 * Kube-Scheduler PodNominator 机制
 * Kube-Scheduler 高可用设计
-* Kube-Scheduler 抢占调度
 
 ### kube-apiserver
 * AdmissionController 源码解析
