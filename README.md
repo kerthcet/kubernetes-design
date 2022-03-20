@@ -1,4 +1,4 @@
-# kubernetes-design ![](https://visitor-badge.glitch.me/badge?page_id=kerthcet.kubernetes-design)
+# kubernetes-design
 Kubernetes 源码学习笔记📰。如有错误，欢迎指正📌。(持续更新🌱)
 
 最新更新：2022-03-19 [Kube-Scheduler Event机制](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/event.md)
