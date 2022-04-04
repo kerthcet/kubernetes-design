@@ -1,7 +1,7 @@
 # kubernetes-design
-Kubernetes 源码学习笔记📰。如有错误，欢迎指正📌。(持续更新🌱)
+Kubernetes 源码学习笔记📰。理解仅限于当时的认知，如有错误，欢迎指正📌。(持续更新🌱)
 
-最新更新：2022-03-19 [Kube-Scheduler Event机制](https://github.com/kerthcet/kubernetes-design/blob/main/scheduler/event.md)
+最新更新：2022-04-04  [节点生命周期管理之 TaintManager](https://github.com/kerthcet/kubernetes-design/blob/main/controller/taint-manager.md)
 
 <!-- ![image](https://github.com/kerthcet/KubernetesSchedulingDesign/blob/main/snapshots/wechat.jpeg) -->
 
@@ -27,8 +27,11 @@ Kubernetes 源码学习笔记📰。如有错误，欢迎指正📌。(持续更
 * Kube-Scheduler PodNominator 机制
 * Kube-Scheduler 高可用设计
 
-### kube-apiserver
-* AdmissionController 源码解析
+### controller
+* [节点生命周期管理之 TaintManager](https://github.com/kerthcet/kubernetes-design/blob/main/controller/taint-manager.md)
 
 ### kubectl
 * [Kubectl Builder & Visitor 设计模式解析](https://github.com/kerthcet/kubernetes-design/blob/main/kubectl/builder-visitor-pattern.md)
+
+### apiserver
+* AdmissionController 源码解析
