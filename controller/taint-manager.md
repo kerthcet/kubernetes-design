@@ -416,10 +416,13 @@ func (q *TimedWorkerQueue) getWrappedWorkerFunc(key string) func(ctx context.Con
 		q.Lock()
 		defer q.Unlock()
 		if err == nil {
-            // 这里没有从 workers 中删除 key，而是赋值为 nil，避免重复执行删除逻辑，但是也会带来 workers key 不断增长的问题，后面可以针对这个点进行优化
+            // 这里没有从 workers 中删除 key，而是赋值为 nil，主要原因是为了避免重复提交队列，
+			// 我们在 AddWork 中会根据 key 校验是否是重复提交。但是有一个问题是 worker 中的 key 什么时候删除呢？
+			// NoExecuteTaintManager 同样利用了 listWatch 机制，删除 pod 同样会推送事件过来，
+			// 这个时候我们会删除对应的 key。
 			q.workers[key] = nil
 		} else {
-            // 如果出错，也需要执行 delete 操作
+            // 如果出错，则执行 delete 操作，可以再次提交事件
 			delete(q.workers, key)
 		}
 		return err
